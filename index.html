@@ -17,7 +17,7 @@
         justify-content: center;
         align-items: center;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         overflow: hidden;
         position: relative;
       }
@@ -31,7 +31,8 @@
       }
 
       @keyframes float {
-        0%, 100% {
+        0%,
+        100% {
           transform: translateY(0) rotate(0deg);
         }
         50% {
@@ -71,7 +72,8 @@
       }
 
       @keyframes pulse {
-        0%, 100% {
+        0%,
+        100% {
           transform: scale(1);
         }
         50% {
@@ -108,7 +110,8 @@
       }
 
       @keyframes wiggle {
-        0%, 100% {
+        0%,
+        100% {
           transform: rotate(0deg);
         }
         25% {
@@ -166,7 +169,8 @@
       }
 
       @keyframes bounce {
-        0%, 100% {
+        0%,
+        100% {
           transform: translateY(0);
         }
         50% {
@@ -227,7 +231,7 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="container">
       <div id="question-screen">
         <h1>Will you be my Valentine? 💖</h1>
         <p class="question-text">I promise to make you smile every day! 🌹</p>
@@ -244,19 +248,27 @@
           src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
           alt="Celebration"
         />
-        <p style="font-size: 1.3em; color: #e91e63; margin-top: 15px; font-weight: bold;">
+        <p
+          style="
+            font-size: 1.3em;
+            color: #e91e63;
+            margin-top: 15px;
+            font-weight: bold;
+          "
+        >
           I knew you couldn't resist! 😄✨
         </p>
       </div>
     </div>
 
     <script>
+      const containermain = document.getElementById("container");
       const noButton = document.getElementById("no");
       const yesButton = document.getElementById("yes");
       const questionScreen = document.getElementById("question-screen");
       const successMessage = document.getElementById("success-message");
       const counter = document.getElementById("counter");
-      
+
       let attempts = 0;
       let yesButtonSize = 1;
 
@@ -278,21 +290,22 @@
       // Make "No" button run away
       noButton.addEventListener("mouseover", () => {
         attempts++;
-        
-        // Make Yes button bigger each time they try to click No
+
         yesButtonSize += 0.1;
         yesButton.style.transform = `scale(${yesButtonSize})`;
-        
-        // Move No button to random position
-        const maxX = window.innerWidth - 150;
-        const maxY = window.innerHeight - 80;
+
+        const containerRect = containermain.getBoundingClientRect();
+        const buttonRect = noButton.getBoundingClientRect();
+
+        const maxX = containerRect.width - buttonRect.width;
+        const maxY = containerRect.height - buttonRect.height;
+
         const x = Math.random() * maxX;
         const y = Math.random() * maxY;
-        
+
         noButton.style.left = x + "px";
         noButton.style.top = y + "px";
-        
-        // Update counter with funny messages
+
         const messages = [
           "Nice try! 😏",
           "Come on, you know you want to say yes! 😊",
@@ -302,18 +315,18 @@
           "Resistance is futile! 😄",
           "The 'Yes' button is getting bigger... 👀",
           "You're making this harder than it needs to be! 😅",
-          "I believe in you! Just click 'Yes'! 🌟"
+          "I believe in you! Just click 'Yes'! 🌟",
         ];
-        
-        const messageIndex = Math.min(attempts - 1, messages.length - 1);
-        counter.textContent = messages[messageIndex];
+
+        counter.textContent =
+          messages[Math.min(attempts - 1, messages.length - 1)];
       });
 
       // Handle "Yes" click with celebration
       yesButton.addEventListener("click", () => {
         questionScreen.style.display = "none";
         successMessage.style.display = "block";
-        
+
         // Create confetti
         for (let i = 0; i < 100; i++) {
           setTimeout(() => {
@@ -324,7 +337,7 @@
             confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
             confetti.style.animationDelay = Math.random() * 0.5 + "s";
             document.body.appendChild(confetti);
-            
+
             setTimeout(() => confetti.remove(), 3000);
           }, i * 30);
         }
